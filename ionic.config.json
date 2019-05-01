@@ -1,5 +1,7 @@
 {
   "name": "mobilReports",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
