@@ -14,7 +14,6 @@ import { CommonService } from './common.service';
 import { ReportService } from './report.service';
 
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -23,7 +22,7 @@ import { ReportService } from './report.service';
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     StatusBar,

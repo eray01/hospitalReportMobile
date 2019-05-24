@@ -192,7 +192,8 @@ export class ReportService {
       }
     });
     return new Promise(resolve => {
-      this.http.post('http://localhost:8080/uploadMultiple/' + fileId, uploadData, { headers: header })
+      // this.http.post('http://localhost:8080/uploadMultiple/' + fileId, uploadData, { headers: header })
+       this.http.post('https://springhost.herokuapp.com/uploadMultiple' + fileId, uploadData, {headers: header})
         .subscribe(
           res => {
             resolve(res);
