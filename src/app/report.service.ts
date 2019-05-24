@@ -11,10 +11,14 @@ import { Storage } from '@ionic/storage';
 export class ReportService {
   // url = 'http://localhost:8080/';
   url = 'https://springhost.herokuapp.com/';
+  token: any;
 
   constructor(public http: HttpClient,
     public router: Router,
     public storage: Storage) {
+   this.storage.get('token').then(data => {
+    this.token = data;
+   })
     this.getToken();
   }
 
@@ -38,7 +42,8 @@ export class ReportService {
     });
   }
   getUser() {
-    const header = { 'Authorization': this.getToken().toString() };
+
+    const header = { 'Authorization': this.token };
 
     return new Promise(resolve => {
       this.http.get(this.url + 'user/all', { headers: header })
@@ -54,8 +59,8 @@ export class ReportService {
     });
   }
   getAllReports() {
-    const token = this.getToken().toString();
-    const header = { 'Authorization': token };
+
+    const header = { 'Authorization': this.token };
     return new Promise(resolve => {
       this.http.get(this.url + 'report/all', { headers: header })
         .subscribe(
@@ -343,10 +348,11 @@ export class ReportService {
   /* Token boşsa logine yönlendiriyoruz */
   getToken() {
     return this.storage.get('token').then(val => {
-      console.log(val, 'provider');
+      // console.log(val, 'provider');
       if (!val) {
         return this.router.navigate([''])
       }
+      this.token = val;
       return val;
     })
   }
