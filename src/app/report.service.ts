@@ -107,7 +107,7 @@ export class ReportService {
   }
   getUserSearch(query) {
     const token = this.getToken().toString();
-    const header = { 'Authorization': token };
+    const header = { 'Authorization': this.token };
 
     return new Promise(resolve => {
       this.http.get(this.url + 'user/find/' + query, { headers: header })
@@ -122,9 +122,7 @@ export class ReportService {
     });
   }
   getUserWithFileId(fileId) {
-    const token = this.getToken().toString();
-    const header = { 'Authorization': token };
-
+    const header = { 'Authorization': this.token };
     return new Promise(resolve => {
       this.http.get(this.url + 'user/fileid/' + fileId, { headers: header })
         .subscribe(
@@ -138,8 +136,7 @@ export class ReportService {
     });
   }
   getReportWithFileId(fileId) {
-    const token = this.getToken().toString();
-    const header = { 'Authorization': token };
+    const header = { 'Authorization': this.token };
     return new Promise(resolve => {
       this.http.get(this.url + 'report/fileid/' + fileId, { headers: header })
         .subscribe(
