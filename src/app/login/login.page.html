@@ -2,21 +2,21 @@
 	<ion-row justify-content-center>
 		<ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
 			<div text-center>
-				<h4>Login Form</h4>
+				<h4>Oturum Aç</h4>
 			</div>
 			<div padding>
 				<ion-item>
-					<ion-input type="text" placeholder="Username" [(ngModel)]="userinfo.username"></ion-input>
+					<ion-input type="text" placeholder="Kullanıcı Adı" [(ngModel)]="userinfo.username"></ion-input>
 				</ion-item>
 
 				<ion-item>
-					<ion-input type="password" placeholder="Password" [(ngModel)]="userinfo.password" required></ion-input>
+					<ion-input type="password" placeholder="Şifre" [(ngModel)]="userinfo.password" required></ion-input>
 				</ion-item>
 			</div>
 
 			<div padding>
         <!-- <ion-button size="large" href="/home" expand="block" (tap)='login()'>Login</ion-button> -->
-        <ion-button size="large" expand="block" (click)='login()'[disabled]='!userinfo.username || !userinfo.password'>Login</ion-button>
+        <ion-button size="large" expand="block" (click)='login()'[disabled]='!userinfo.username || !userinfo.password' style='text-transform: capitalize'>Giriş</ion-button>
 			</div>
 		</ion-col>
 	</ion-row>

@@ -24,12 +24,12 @@
         <p style='font-size: 14px; margin-top: -20px; color: #483d47'>{{item.date}}</p>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option (click)="display(item)">Düzenle</ion-item-option>
+        <ion-item-option (click)="addReport(item.fileId)">Düzenle</ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 
-  <ion-fab  vertical="bottom" horizontal="end">
+  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="tertiary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -38,7 +38,7 @@
       <ion-fab-button>
         <ion-icon name="copy" style='font-size: 50px !important'></ion-icon>
       </ion-fab-button>
-      <ion-fab-button>
+      <ion-fab-button (click)='addReport()'>
         <ion-icon name="add-circle" style='font-size: 50px; color: #10dc60'></ion-icon>
       </ion-fab-button>
     </ion-fab-list>

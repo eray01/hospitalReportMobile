@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: '',
     // redirectTo: 'home',
-    redirectTo:'login',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -17,7 +17,7 @@ const routes: Routes = [
     loadChildren: './list/list.module#ListPageModule'
   },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'add-report', loadChildren: './add-report/add-report.module#AddReportPageModule' }
+  { path: 'add-report/:id', loadChildren: './add-report/add-report.module#AddReportPageModule' }
 ];
 
 @NgModule({
@@ -26,4 +26,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

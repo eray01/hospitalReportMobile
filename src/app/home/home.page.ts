@@ -1,13 +1,14 @@
-import { Component } from "@angular/core";
-import { Storage } from "@ionic/storage";
-import { ReportService } from "../report.service";
-import { Platform, NavController } from "@ionic/angular";
-import { Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { ReportService } from '../report.service';
+import { Platform, NavController, LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { CommonService } from '../common.service';
 
 @Component({
-  selector: "app-home",
-  templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"]
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss']
 })
 export class HomePage {
   token: string;
@@ -25,10 +26,18 @@ export class HomePage {
     public dataService: ReportService,
     public platform: Platform,
     public navCtrl: NavController,
-    public router: Router
+    public router: Router,
+    public commons: CommonService,
+    public loadingController: LoadingController
   ) {
+    const loading = this.loadingController.create({
+      message: 'Hellooo',
+      duration: 2000
+    });
+   
+    console.log('Loading dismissed!');
     this.platform.ready().then(() => {
-      this.storage.get("token").then(val => {
+      this.storage.get('token').then(val => {
         this.getUser();
         this.getAllReport();
       });
@@ -39,24 +48,24 @@ export class HomePage {
   public async getUser() {
     this.sendValue = [];
     await this.dataService.getUser().then((data: any) => {
-      console.log(data, "userList");
+      console.log(data, 'userList');
       this.userList = data;
       this.allList = data;
     });
   }
   getAllReport() {
     this.dataService.getAllReports().then((val: any) => {
-      console.log(val, "allreports");
+      console.log(val, 'allreports');
       this.reportList = val;
-      console.log(this.reportList, "report", this.userList, "user");
+      console.log(this.reportList, 'report', this.userList, 'user');
       this.userList.forEach(element => {
         this.reportList.forEach(el => {
           if (element.fileId === el.dosyaNo) {
             this.exportData.push({
-              "Dosya No": element.fileId,
-              "Ad Soyad": element.name,
-              "TC No": element.tcId,
-              "Kan Grubu": element.blood,
+              'Dosya No': element.fileId,
+              'Ad Soyad': element.name,
+              'TC No': element.tcId,
+              'Kan Grubu': element.blood,
               Tarih: element.date,
               Adres: element.address,
               Tanı: el.tani,
@@ -100,7 +109,7 @@ export class HomePage {
   }
 
   openDetail(id) {
-    console.log(id, "item tıklandı");
+    console.log(id, 'item tıklandı');
 
     // this.navCtrl.navigateForward("/list/");
     this.router.navigate(['/list', id]);
@@ -108,6 +117,15 @@ export class HomePage {
 
   display(item) {
     console.log(item);
+  }
+
+  addReport(id) {
+    // rapor eklemek ve editlemek için id üzerinden kontrol sağlanır.
+    if (id) {
+      this.router.navigate(['/add-report', id]);
+    } else {
+      this.router.navigate(['/add-report', '']);
+    }
   }
 
   logout() {
