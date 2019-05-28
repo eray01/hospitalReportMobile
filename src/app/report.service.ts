@@ -16,15 +16,15 @@ export class ReportService {
   constructor(public http: HttpClient,
     public router: Router,
     public storage: Storage) {
-   this.storage.get('token').then(data => {
-    this.token = data;
-   })
+    this.storage.get('token').then(data => {
+      this.token = data;
+    });
     this.getToken();
   }
 
 
   postLogin(username, password) {
-    const postparams = { username: username, password: password };
+    const postparams = { username, password };
     return new Promise(resolve => {
       this.http
         .post(this.url + 'login', JSON.stringify(postparams), {
@@ -43,7 +43,7 @@ export class ReportService {
   }
   getUser() {
 
-    const header = { 'Authorization': this.token };
+    const header = { Authorization: this.token };
 
     return new Promise(resolve => {
       this.http.get(this.url + 'user/all', { headers: header })
@@ -60,7 +60,7 @@ export class ReportService {
   }
   getAllReports() {
 
-    const header = { 'Authorization': this.token };
+    const header = { Authorization: this.token };
     return new Promise(resolve => {
       this.http.get(this.url + 'report/all', { headers: header })
         .subscribe(
@@ -76,7 +76,7 @@ export class ReportService {
   }
   getHomeResults() {
     const token = this.getToken().toString();
-    const header = { 'Authorization': token };
+    const header = { Authorization: token };
     return new Promise(resolve => {
       this.http.get(this.url + 'user/homeresults', { headers: header })
         .subscribe(
@@ -107,7 +107,7 @@ export class ReportService {
   }
   getUserSearch(query) {
     const token = this.getToken().toString();
-    const header = { 'Authorization': this.token };
+    const header = { Authorization: this.token };
 
     return new Promise(resolve => {
       this.http.get(this.url + 'user/find/' + query, { headers: header })
@@ -122,7 +122,7 @@ export class ReportService {
     });
   }
   getUserWithFileId(fileId) {
-    const header = { 'Authorization': this.token };
+    const header = { Authorization: this.token };
     return new Promise(resolve => {
       this.http.get(this.url + 'user/fileid/' + fileId, { headers: header })
         .subscribe(
@@ -136,7 +136,7 @@ export class ReportService {
     });
   }
   getReportWithFileId(fileId) {
-    const header = { 'Authorization': this.token };
+    const header = { Authorization: this.token };
     return new Promise(resolve => {
       this.http.get(this.url + 'report/fileid/' + fileId, { headers: header })
         .subscribe(
@@ -152,16 +152,16 @@ export class ReportService {
 
   postUser(fileId, name, tc, blood, address, date) {
     const postparams = {
-      fileId: fileId,
-      name: name,
+      fileId,
+      name,
       tcId: tc,
-      blood: blood,
-      address: address,
-      date: date
+      blood,
+      address,
+      date
     };
-    const token = this.getToken().toString();
+    const token = this.token;
     // tslint:disable-next-line:max-line-length
-    const header = { 'content-type': 'application/json', 'Authorization': token };
+    const header = { 'content-type': 'application/json', Authorization: token };
     return new Promise(resolve => {
       this.http
         .post(this.url + 'user/add', JSON.stringify(postparams), {
@@ -179,8 +179,8 @@ export class ReportService {
     });
   }
   postImage(file: any, fileId) {
-    const token = this.getToken().toString();
-    const header = { 'Authorization': token, 'mimeType': 'multipart/form-data' };
+    const token = this.token;
+    const header = { Authorization: token, mimeType: 'multipart/form-data' };
     const uploadData = new FormData();
     file.forEach(element => {
       if (element.imageOne) {
@@ -195,7 +195,7 @@ export class ReportService {
     });
     return new Promise(resolve => {
       // this.http.post('http://localhost:8080/uploadMultiple/' + fileId, uploadData, { headers: header })
-       this.http.post('https://springhost.herokuapp.com/uploadMultiple' + fileId, uploadData, {headers: header})
+      this.http.post('https://springhost.herokuapp.com/uploadMultiple/' + fileId, uploadData, { headers: header })
         .subscribe(
           res => {
             resolve(res);
@@ -207,44 +207,37 @@ export class ReportService {
     });
   }
   postReport(report: any, images) {
-    //  console.log(report);
-
     const postparams = {
-      'dosyaNo': report.fileNo,
-      'myloblast': report.myloblast,
-      'promyelosit': report.promyelosit,
-      'myelosit': report.myelosit,
-      'metamyelosit': report.metam,
-      'comak': report.comak,
-      'parcali': report.parcali,
-      'bazofilikSeri': report.bazoSeri,
-      'eozinofilikSeri': report.eozino,
-      'lenfosit': report.lenfosit,
-      'promonosit': report.promonosit,
-      'monosit': report.monosit,
-      'plazmaHucresi': report.plazma,
-      'proeritroblast': report.proerit,
-      'bazofilikErit': report.bazoErit,
-      'polikromalofilikErit': report.polikro,
-      'ortokromantofilikErit': report.ortokro,
-      'megakaryositler': report.megakaryo,
-      'sellulerite': report.sellul,
-      'tani': report.tani,
-      'raporEden': report.reporter,
-      'rapor': report.report,
-      'tarih': report.date,
-      'resim1': '',
-      'resim2': '',
-      'resim3': ''
+      dosyaNo: report.fileNo,
+      myloblast: report.myloblast,
+      promyelosit: report.promyelosit,
+      myelosit: report.myelosit,
+      metamyelosit: report.metam,
+      comak: report.comak,
+      parcali: report.parcali,
+      bazofilikSeri: report.bazoSeri,
+      eozinofilikSeri: report.eozino,
+      lenfosit: report.lenfosit,
+      promonosit: report.promonosit,
+      monosit: report.monosit,
+      plazmaHucresi: report.plazma,
+      proeritroblast: report.proerit,
+      bazofilikErit: report.bazoErit,
+      polikromalofilikErit: report.polikro,
+      ortokromantofilikErit: report.ortokro,
+      megakaryositler: report.megakaryo,
+      sellulerite: report.sellul,
+      tani: report.tani,
+      raporEden: report.reporter,
+      rapor: report.report,
+      tarih: report.date,
+      resim1: report.imageOne,
+      resim2: report.imageTwo,
+      resim3: report.imageThree
     };
-    for (let i = 0; i < images.length; i++) {
-      postparams.resim1 = images[0];
-      postparams.resim2 = images[1];
-      postparams.resim3 = images[2];
-    }
-    console.log(postparams, 'resimler eklendi mi');
-    const token = this.getToken().toString();
-    const header = { 'content-type': 'application/json', 'Authorization': token };
+    console.log(report, 'service');
+    const token = this.token;
+    const header = { 'content-type': 'application/json', Authorization: token };
     return new Promise(resolve => {
       this.http
         .post(this.url + 'report/add', postparams, {
@@ -265,36 +258,36 @@ export class ReportService {
     //  console.log(report);
 
     const postparams = {
-      'raporId': report.raporId,
-      'dosyaNo': report.fileNo,
-      'myloblast': report.myloblast,
-      'promyelosit': report.promyelosit,
-      'myelosit': report.myelosit,
-      'metamyelosit': report.metam,
-      'comak': report.comak,
-      'parcali': report.parcali,
-      'bazofilikSeri': report.bazoSeri,
-      'eozinofilikSeri': report.eozino,
-      'lenfosit': report.lenfosit,
-      'promonosit': report.promonosit,
-      'monosit': report.monosit,
-      'plazmaHucresi': report.plazma,
-      'proeritroblast': report.proerit,
-      'bazofilikErit': report.bazoErit,
-      'polikromalofilikErit': report.polikro,
-      'ortokromantofilikErit': report.ortokro,
-      'megakaryositler': report.megakaryo,
-      'sellulerite': report.sellul,
-      'tani': report.tani,
-      'raporEden': report.reporter,
-      'rapor': report.report,
-      'tarih': report.tarih,
-      'resim1': '',
-      'resim2': '',
-      'resim3': ''
+      raporId: report.raporId,
+      dosyaNo: report.fileNo,
+      myloblast: report.myloblast,
+      promyelosit: report.promyelosit,
+      myelosit: report.myelosit,
+      metamyelosit: report.metam,
+      comak: report.comak,
+      parcali: report.parcali,
+      bazofilikSeri: report.bazoSeri,
+      eozinofilikSeri: report.eozino,
+      lenfosit: report.lenfosit,
+      promonosit: report.promonosit,
+      monosit: report.monosit,
+      plazmaHucresi: report.plazma,
+      proeritroblast: report.proerit,
+      bazofilikErit: report.bazoErit,
+      polikromalofilikErit: report.polikro,
+      ortokromantofilikErit: report.ortokro,
+      megakaryositler: report.megakaryo,
+      sellulerite: report.sellul,
+      tani: report.tani,
+      raporEden: report.reporter,
+      rapor: report.report,
+      tarih: report.tarih,
+      resim1: '',
+      resim2: '',
+      resim3: ''
     };
-    const token = this.getToken().toString();
-    const header = { 'content-type': 'application/json', 'Authorization': token };
+    const token = this.token;
+    const header = { 'content-type': 'application/json', Authorization: token };
     console.log(report);
     return new Promise(resolve => {
       this.http
@@ -315,16 +308,16 @@ export class ReportService {
 
   updateUser(userDetails: any) {
     const postParams = {
-      'id': userDetails.id,
-      'name': userDetails.name,
-      'fileId': userDetails.fileId,
-      'tcId': userDetails.tcId,
-      'blood': userDetails.blood,
-      'address': userDetails.address,
-      'date': userDetails.date
+      id: userDetails.id,
+      name: userDetails.name,
+      fileId: userDetails.fileId,
+      tcId: userDetails.tcId,
+      blood: userDetails.blood,
+      address: userDetails.address,
+      date: userDetails.date
     };
-    const token = this.getToken().toString();
-    const header = { 'content-type': 'application/json', 'Authorization': token };
+    const token = this.token;
+    const header = { 'content-type': 'application/json', Authorization: token };
     return new Promise(resolve => {
       this.http
         .put(this.url + 'user/update/' + userDetails.id, postParams, {
@@ -347,10 +340,10 @@ export class ReportService {
     return this.storage.get('token').then(val => {
       // console.log(val, 'provider');
       if (!val) {
-        return this.router.navigate([''])
+        return this.router.navigate(['']);
       }
       this.token = val;
       return val;
-    })
+    });
   }
 }

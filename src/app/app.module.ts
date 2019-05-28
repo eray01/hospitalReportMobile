@@ -12,6 +12,9 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonService } from './common.service';
 import { ReportService } from './report.service';
+import { ExportAsModule } from 'ngx-export-as';
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 
 @NgModule({
@@ -23,12 +26,15 @@ import { ReportService } from './report.service';
     IonicStorageModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
+    ExportAsModule,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     ReportService,
     CommonService,
+    File,
+    FileOpener,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

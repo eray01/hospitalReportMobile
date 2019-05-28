@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-        <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-title>
       Rapor Görüntüleme
@@ -11,19 +11,39 @@
 
 <ion-content>
 
-    <ion-slides pager="true" [options]="slideOpts" loop='true' >
-        <ion-slide *ngFor='let item of imageUrlArray'>
-            <img [src]="item" onError="this.src = 'https://cdn.samsung.com/etc/designs/smg/global/imgs/support/cont/NO_IMG_600x600.png'" />
-        </ion-slide>
-      </ion-slides>
- 
-<table *ngFor='let item of this.searchList'>
+  <ion-slides pager="true" [options]="slideOpts" loop='true'>
+    <ion-slide *ngFor='let item of imageUrlArray'>
+      <img [src]="item"
+        onError="this.src = 'https://cdn.samsung.com/etc/designs/smg/global/imgs/support/cont/NO_IMG_600x600.png'" />
+    </ion-slide>
+  </ion-slides>
+
+
+  <table id='myTable' *ngFor='let item of this.searchList'>
+    <tr>
+      <!-- <td>
+        <ion-button color='success' size='small' slot='left' (click)="exportAs('xlsx')">Excel</ion-button>
+      </td> -->
+      <td>
+      <ion-button color='primary' size='small' slot='right' (click)="exportAs('pdf')">Pdf</ion-button>
+      </td>
+    </tr>
+
     <td>Rapor No: {{item.raporId}}</td>
     <td>Raporlayan: {{item.raporEden}}</td>
     <tr>
       <th>Değerler</th>
       <th>Sonuçlar</th>
     </tr>
+    <tr>
+        <td>Dosya No</td>
+        <td>{{item.fileId}}</td>
+      </tr>
+    <tr>
+    <tr>
+        <td>Tarih</td>
+        <td style='font-weight: bold'>{{item.tarih}}</td>
+      </tr>
     <tr>
       <td>Bazofilik Erit</td>
       <td>{{item.bazofilikErit}}</td>

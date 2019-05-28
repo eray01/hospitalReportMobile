@@ -1,47 +1,140 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+    <ion-buttons slot="end" (click)='logout()' >
+     <ion-icon color='primary'  style='font-size:30px;' name='exit'></ion-icon>
     </ion-buttons>
     <ion-title>
       Raporlar
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-searchbar
-  [showCancelButton]="true"
-  [(ngModel)]='searchQuery'
-  (ionChange)="search()"
-  >
+<ion-searchbar [showCancelButton]="true" [(ngModel)]='searchQuery' (ionChange)="search()" placeholder="İsim, TC No veya Rapor numarası..">
 </ion-searchbar>
 <ion-content>
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of userList">
-      <ion-item (click)='openDetail(item.fileId)'>
-        <ion-label style='text-transform: capitalize '>{{item.name}}
-          <p>{{item.tcId}} - {{item.fileId}}</p>
-        </ion-label>
-        <p style='font-size: 14px; margin-top: -20px; color: #483d47'>{{item.date}}</p>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option (click)="addReport(item.fileId)">Düzenle</ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+  <div *ngIf='this.loading'>
+    <ion-list>
+      <ion-item-sliding *ngFor="let item of userList">
+        <ion-item (click)='openDetail(item.fileId)'>
+          <ion-label style='text-transform: capitalize '>{{item.name}}
+            <p>{{item.tcId}} - {{item.fileId}}</p>
+          </ion-label>
+          <p style='font-size: 14px; margin-top: -20px; color: #483d47'>{{item.date}}</p>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option (click)="addReport(item.fileId)">Düzenle</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
 
-  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="tertiary">
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="this.loading">
+    <ion-fab-button color="tertiary"(click)='addReport()'>
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
 
-    <ion-fab-list side="top">
+    <!-- <ion-fab-list side="top">
       <ion-fab-button>
         <ion-icon name="copy" style='font-size: 50px !important'></ion-icon>
       </ion-fab-button>
       <ion-fab-button (click)='addReport()'>
         <ion-icon name="add-circle" style='font-size: 50px; color: #10dc60'></ion-icon>
       </ion-fab-button>
-    </ion-fab-list>
+    </ion-fab-list> -->
   </ion-fab>
+
+  <!-- Skeleton Screen -->
+  <div *ngIf="!this.loading">
+    <div class="ion-padding custom-skeleton">
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      <ion-skeleton-text animated></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    </div>
+
+    <ion-list>
+      <ion-list-header>
+        <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+      </ion-list-header>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
 
 </ion-content>

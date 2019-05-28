@@ -11,6 +11,7 @@ import { CommonService } from '../common.service';
   styleUrls: ['home.page.scss']
 })
 export class HomePage {
+  
   token: string;
   userList: any = [];
   searchList: any = [];
@@ -21,6 +22,7 @@ export class HomePage {
   date: Date = new Date();
   searchQuery: any = [];
   allList: any = [];
+  loading = false;
   constructor(
     public storage: Storage,
     public dataService: ReportService,
@@ -28,36 +30,36 @@ export class HomePage {
     public navCtrl: NavController,
     public router: Router,
     public commons: CommonService,
-    public loadingController: LoadingController
-  ) {
-    const loading = this.loadingController.create({
-      message: 'Hellooo',
-      duration: 2000
-    });
-   
-    console.log('Loading dismissed!');
-    this.platform.ready().then(() => {
-      this.storage.get('token').then(val => {
-        this.getUser();
-        this.getAllReport();
-      });
+  ) { }
+
+  ngOnInit() {
+    // console.log('Loading dismissed!');
+    // this.platform.ready().then(() => {
+    //   this.storage.get('token').then(val => {
+    //     this.getUser();
+    //     this.getAllReport();
+    //   });
+    // });
+  }
+
+  getUser() {
+    this.sendValue = [];
+    this.dataService.getUser().then((data: any) => {
+      this.userList = data;
+      this.allList = data;
+      this.loading = true;
     });
   }
 
-  ngOnInit() { }
-  public async getUser() {
-    this.sendValue = [];
-    await this.dataService.getUser().then((data: any) => {
-      console.log(data, 'userList');
-      this.userList = data;
-      this.allList = data;
+  ionViewDidEnter() {
+    this.storage.get('token').then(val => {
+      this.getUser();
+      // this.getAllReport();
     });
   }
   getAllReport() {
     this.dataService.getAllReports().then((val: any) => {
-      console.log(val, 'allreports');
       this.reportList = val;
-      console.log(this.reportList, 'report', this.userList, 'user');
       this.userList.forEach(element => {
         this.reportList.forEach(el => {
           if (element.fileId === el.dosyaNo) {
@@ -129,7 +131,8 @@ export class HomePage {
   }
 
   logout() {
-    localStorage.clear();
-    this.dataService.getToken();
+    this.storage.set('checklogin', '');
+    this.navCtrl.navigateRoot('');
+    
   }
 }

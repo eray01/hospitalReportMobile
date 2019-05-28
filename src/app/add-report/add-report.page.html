@@ -18,8 +18,8 @@
     </ion-item>
     <ion-item>
       <ion-label>Tarih</ion-label>
-      <ion-datetime #myPicker displayFormat='DD/MM/YYYY' (ionChange)="updateMyDate(myPicker.value)" min='2012' cancelText='İptal' doneText='Tamam'
-        picker-format="DD/MM/YYYY"></ion-datetime>
+      <ion-datetime #myPicker displayFormat='DD/MM/YYYY' (ionChange)="updateMyDate(myPicker,1)" min='2012'
+        cancelText='İptal' doneText='Tamam' picker-format="DD/MM/YYYY"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Ad Soyad</ion-label>
@@ -39,108 +39,122 @@
     </ion-item>
   </div>
 
-  <ion-item (click)="toggleGroup()" [color] = 'this.color' text-center center>
-      <span>{{toggleText}} </span>
-      <ion-icon *ngIf='!toggle' name="ios-arrow-down" slot='end' style="margin-left: 5px; color: #fff"></ion-icon>
-      <ion-icon *ngIf='toggle' name="ios-arrow-up" slot='end' style="margin-left: 5px; color: #fff"></ion-icon>
-    </ion-item>
+  <ion-item style='margin-bottom: -10px;' (click)="toggleGroup()" [color]='this.color' text-center center>
+    <span *ngIf='!loading'>{{toggleText}} </span>
+    <ion-icon *ngIf='!toggle && !loading' name="ios-arrow-down" slot='end' style="margin-left: 5px; color: #fff">
+    </ion-icon>
+    <ion-icon *ngIf='toggle && !loading' name="ios-arrow-up" slot='end' style="margin-left: 5px; color: #fff">
+    </ion-icon>
+    <ion-spinner *ngIf='loading' name="crescent" style='margin: auto'></ion-spinner>
+  </ion-item>
 
 
-  <div class='addReport' *ngIf ='this.toggle'>
-      <h3 style='margin-left: 10px'>Rapor Ekleme</h3>
+  <div class='addReport' *ngIf='this.toggle'>
+    <h3 style='margin-left: 10px'>Rapor Ekleme</h3>
     <ion-item>
       <ion-input [disabled]='true' placeholder="Dosya No: {{this.reportDetail.fileNo}}"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Tarih</ion-label>
-      <ion-datetime min='2012' cancelText='İptal' doneText='Tamam' display-format="DD/MM/YYYY"
-        picker-format="DD MMMM YYYY"></ion-datetime>
+      <ion-datetime #myPicker2 displayFormat='DD/MM/YYYY' (ionChange)="updateMyDate(myPicker2,2)" min='2012'
+        cancelText='İptal' doneText='Tamam' picker-format="DD/MM/YYYY"></ion-datetime>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input placeholder="Raporlayan Kişi" [(ngModel)]="reportDetail.reporter"></ion-input>
+      <ion-label position="floating">Adres</ion-label>
+      <ion-input [(ngModel)]="reportDetail.reporter"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Bazofilik Erit" [(ngModel)]="reportDetail.bazoErit"></ion-input>
+      <ion-label position="floating">Bazofilik Erit</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.bazoErit"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Bazofilik Seri" [(ngModel)]="reportDetail.bazoSeri"></ion-input>
+
+      <ion-label position="floating">Bazofilik Seri</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.bazoSeri"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Comak" [(ngModel)]="reportDetail.comak"></ion-input>
+      <ion-label position="floating">Comak</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.comak"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Eozinofilik Seri" [(ngModel)]="reportDetail.eozino"></ion-input>
+      <ion-label position="floating">Eozinofilik Seri</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.eozino"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Lenfosit" [(ngModel)]="reportDetail.lenfosit"></ion-input>
+      <ion-label position="floating">Lenfosit</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.lenfosit"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input placeholder="Megakaryositler" [(ngModel)]="reportDetail.megakaryo"></ion-input>
+      <ion-label position="floating">Megakaryositler</ion-label>
+      <ion-input [(ngModel)]="reportDetail.megakaryo"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Metamyelosit" [(ngModel)]="reportDetail.metam"></ion-input>
+      <ion-label position="floating">Metamyelosit</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.metam"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Monosit" [(ngModel)]="reportDetail.monosit"></ion-input>
+      <ion-label position="floating">Monosit</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.monosit"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Myelosit" [(ngModel)]="reportDetail.myelosit"></ion-input>
+      <ion-label position="floating">Myelosit</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.myelosit"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Myloblast" [(ngModel)]="reportDetail.myloblast"></ion-input>
+      <ion-label position="floating">Myloblast</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.myloblast"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Ortokromantofilik Erit" [(ngModel)]="reportDetail.ortokro"></ion-input>
+      <ion-label position="floating">Ortokromantofilik Erit</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.ortokro"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Parçalı" [(ngModel)]="reportDetail.parcali"></ion-input>
+      <ion-label position="floating">Parçalı</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.parcali"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Plazma Hücresi" [(ngModel)]="reportDetail.plazma"></ion-input>
+      <ion-label position="floating">Plazma Hücresi</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.plazma"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Polikromalofilik Erit" [(ngModel)]="reportDetail.polikro"></ion-input>
+      <ion-label position="floating">Polikromalofilik Erit</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.polikro"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Proeritroblast " [(ngModel)]="reportDetail.proerit"></ion-input>
+      <ion-label position="floating">Proeritroblast</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.proerit"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Promonosit" [(ngModel)]="reportDetail.promonosit"></ion-input>
+      <ion-label position="floating">Promonosit</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.promonosit"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input type='number' placeholder="Promyelosit" [(ngModel)]="reportDetail.promyelosit"></ion-input>
+      <ion-label position="floating">Promyelosit</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.promyelosit"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input placeholder="Sellulerite" [(ngModel)]="reportDetail.sellul"></ion-input>
+      <ion-label position="floating">Sellulerite</ion-label>
+      <ion-input type='number' [(ngModel)]="reportDetail.sellul"></ion-input>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <textarea placeholder="Rapor" rows="10" [(ngModel)]="reportDetail.report"></textarea>
+      <ion-label position="floating">Rapor</ion-label>
+      <ion-textarea rows="5" [(ngModel)]="reportDetail.report"></ion-textarea>
     </ion-item>
     <ion-item>
-      <!-- <ion-label position="floating">Adres</ion-label> -->
-      <ion-input placeholder="Tanı" [(ngModel)]="reportDetail.tani"></ion-input>
+      <ion-label position="floating">Tanı</ion-label>
+      <ion-input [(ngModel)]="reportDetail.tani"></ion-input>
     </ion-item>
+
+    <div>
+        <ion-button size='small' shape='round' fill='outline' color='tertiary' *ngFor="let item of [1,2,3] let i= index">
+          <input style="display: none" type="file" accept="image/png, image/jpeg, image/jpg, image/gif"
+            (change)="onFileChanged($event, item)" #fileInput>
+          <span style="color: #4CAF50;" mat-stroked-button (click)="fileInput.click()">{{item}}. Fotoğrafı Ekle</span>
+        </ion-button>
+        <br>
+      </div>
+
+    <ion-button (click)='addUser()' expand="block" color='tertiary' style='margin-top: 12px'>Ekle</ion-button>
 
   </div>
 
