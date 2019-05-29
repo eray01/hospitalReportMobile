@@ -29,10 +29,13 @@ export class AddReportPage implements OnInit {
   toggle: boolean;
   toggleText = 'Rapor Ekleme';
   color = 'success';
-  date: any;
+  date: any = 'Tarih';
   loading = false;
   reportDate: any;
   reportImageArr: any = [];
+  buttontext: any = 'Ekle';
+  isSelect= false;
+  isSelect2= false;
   // public items: Array<{ title: string; note: string; icon: string }> = [];
   constructor(
     public navCtrl: NavController,
@@ -47,6 +50,8 @@ export class AddReportPage implements OnInit {
       this.id = val.id;
       if (this.id) {
         this.isEdit = true;
+        this.buttontext = 'Güncelle';
+        this.fillArea();
       }
       this.title = this.isEdit ? 'Rapor Düzenleme' : 'Hasta ve Rapor Ekleme';
     });
@@ -74,7 +79,7 @@ export class AddReportPage implements OnInit {
   }
 
   addUser() {
-    ""
+    '';
     let size = 0, key;
     for (key in this.reportDetail) {
       if (this.reportDetail.hasOwnProperty(key)) { size++; }
@@ -187,6 +192,49 @@ export class AddReportPage implements OnInit {
 
   }
 
+  /*Edit olması durumunda alanlar doldurulur*/
+  fillArea() {
+    // user area
+    this.dataService.getUserWithFileId(this.id).then((data: any) => {
+      console.log(data);
+      this.fileId = this.id;
+      this.name = data.name;
+      this.tcNo = data.tcId;
+      this.blood = data.blood;
+      this.address = data.address;
+      this.date = data.date;
+    });
+    // report area
+    this.dataService.getReportWithFileId(this.id).then((report: any) => {
+      this.reportDetail.fileNo = report.dosyaNo;
+      this.reportDetail.myloblast = report.myloblast;
+      this.reportDetail.promyelosit = report.promyelosit;
+      this.reportDetail.myelosit = report.myelosit;
+      this.reportDetail.metam = report.metamyelosit;
+      this.reportDetail.comak = report.comak;
+      this.reportDetail.parcali = report.parcali;
+      this.reportDetail.bazoSeri = report.bazofilikSeri;
+      this.reportDetail.eozino = report.eozinofilikSeri;
+      this.reportDetail.lenfosit = report.lenfosit;
+      this.reportDetail.promonosit = report.promonosit;
+      this.reportDetail.monosit = report.monosit;
+      this.reportDetail.plazma = report.plazmaHucresi;
+      this.reportDetail.proerit = report.proeritroblast;
+      this.reportDetail.bazoErit = report.bazofilikErit;
+      this.reportDetail.polikro = report.polikromalofilikErit;
+      this.reportDetail.ortokro = report.ortokromantofilikErit;
+      this.reportDetail.megakaryo = report.megakaryositler;
+      this.reportDetail.sellul = report.sellulerite;
+      this.reportDetail.tani = report.tani;
+      this.reportDetail.reporter = report.raporEden;
+      this.reportDetail.report = report.rapor;
+      this.reportDetail.reportDate = report.tarih;
+      this.reportDetail.imageOne = report.resim1;
+      this.reportDetail.imageTwo = report.resim2;
+      this.reportDetail.imageOne = report.resim3;
+    });
+  }
+
   updateMyDate($event, type) {
     let day, month, year;
     const date = new Date($event.value);
@@ -200,6 +248,7 @@ export class AddReportPage implements OnInit {
     if (type === 1) {
       this.date = day + '/' + month + '/' + year;
       this.date = this.date.replace(/^(\d\d)(\d)$/g, '$1/$2').replace(/^(\d\d\/\d\d)(\d+)$/g, '$1/$2').replace(/[^\d\/]/g, '');
+      this.isSelect = true;
     } else {
       this.reportDate = day + '/' + month + '/' + year;
       this.reportDate = this.reportDate.replace(/^(\d\d)(\d)$/g, '$1/$2').replace(/^(\d\d\/\d\d)(\d+)$/g, '$1/$2').replace(/[^\d\/]/g, '');

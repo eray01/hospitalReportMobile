@@ -17,7 +17,7 @@
       <ion-input [(ngModel)]='fileId'></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Tarih</ion-label>
+        <ion-label *ngIf='!isSelect'>{{date}}</ion-label>
       <ion-datetime #myPicker displayFormat='DD/MM/YYYY' (ionChange)="updateMyDate(myPicker,1)" min='2012'
         cancelText='İptal' doneText='Tamam' picker-format="DD/MM/YYYY"></ion-datetime>
     </ion-item>
@@ -51,12 +51,13 @@
 
   <div class='addReport' *ngIf='this.toggle'>
     <h3 style='margin-left: 10px'>Rapor Ekleme</h3>
+    <!-- <ion-item>
+        <ion-label position="floating">Bazofilik Erit</ion-label>
+      <ion-input [disabled]='true' [(ngModel)]='date' placeholder="Dosya No: {{this.reportDetail.fileNo}}"></ion-input>
+    </ion-item> -->
     <ion-item>
-      <ion-input [disabled]='true' placeholder="Dosya No: {{this.reportDetail.fileNo}}"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Tarih</ion-label>
-      <ion-datetime #myPicker2 displayFormat='DD/MM/YYYY' (ionChange)="updateMyDate(myPicker2,2)" min='2012'
+        <ion-label *ngIf='!isSelect2'>{{reportDetail.date}}</ion-label>
+      <ion-datetime  #myPicker2 displayFormat='DD/MM/YYYY' (ionChange)="updateMyDate(myPicker2,2)" min='2012'
         cancelText='İptal' doneText='Tamam' picker-format="DD/MM/YYYY"></ion-datetime>
     </ion-item>
     <ion-item>
@@ -154,7 +155,7 @@
         <br>
       </div>
 
-    <ion-button (click)='addUser()' expand="block" color='tertiary' style='margin-top: 12px'>Ekle</ion-button>
+    <ion-button (click)='addUser()' expand="block" color='tertiary' style='margin-top: 12px'>{{buttontext}}</ion-button>
 
   </div>
 
