@@ -254,7 +254,6 @@ export class AddReportPage implements OnInit {
       this.reportDate = this.reportDate.replace(/^(\d\d)(\d)$/g, '$1/$2').replace(/^(\d\d\/\d\d)(\d+)$/g, '$1/$2').replace(/[^\d\/]/g, '');
       this.reportDetail.date = this.reportDate;
     }
-
   }
 
   back() {
